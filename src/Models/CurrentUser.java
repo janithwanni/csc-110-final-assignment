@@ -11,7 +11,7 @@ package Models;
  */
 public class CurrentUser {
    private static String username;
-   private static String access_level;
+   private static String accessLevel;
 
     public String getUsername() {
         return username;
@@ -21,11 +21,11 @@ public class CurrentUser {
         this.username = username;
     }
 
-    public String getAccess_level() {
-        return access_level;
+    public String getAccessLevel() {
+        return accessLevel;
     }
 
-    public void setAccess_level(String access_level) {
-        this.access_level = access_level;
+    public void setAccessLevel(String accessLevel) {
+        this.accessLevel = accessLevel;
     }
 }

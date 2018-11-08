@@ -18,9 +18,14 @@ import java.util.logging.Logger;
  * @author JanithWanni
  */
 public class DatabaseConnector {
-    static final String DB_URL = "jdbc:mysql://localhost:3306/reservation_system_db";
-    static Connection con;
-    static Statement statement;
+    public static final String DB_NAME = "reservation_system_db";
+    public static final String DB_URL = "jdbc:mysql://localhost:3306/"+DB_NAME;
+    private Connection con;
+    private Statement statement;
+
+    public Statement getStatement() {
+        return statement;
+    }
     public DatabaseConnector(){
         try {
             con = DriverManager.getConnection(DB_URL,"root","");

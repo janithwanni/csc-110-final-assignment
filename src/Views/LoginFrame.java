@@ -6,6 +6,7 @@
 package Views;
 
 import Database.DatabaseConnector;
+import Models.CurrentUser;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -119,7 +120,13 @@ public class LoginFrame extends javax.swing.JFrame {
             System.out.println(userExists);
             if (userExists == 1) {
                 String ID = count.getString("id");
-                
+                String idquery = "select username,access_level from users where id = "+ID;
+                System.out.println(idquery);
+                ResultSet user = dbcon.select(idquery);
+                user.next();
+                CurrentUser cu = new CurrentUser();
+                cu.setUsername(username);
+                cu.setAccessLevel(user.getString("access_level"));
                 showMainUI();
             }else{
                 JOptionPane.showMessageDialog(this, "Invalid Login Credentials");
