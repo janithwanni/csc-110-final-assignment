@@ -6,8 +6,6 @@
 package Views;
 
 import Models.CurrentUser;
-import Services.LoginValidator;
-import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 
 /**
@@ -21,10 +19,10 @@ public class MainUI extends javax.swing.JFrame {
      * Creates new form MainUI
      */
     public MainUI() {
-        if(!LoginValidator.isLoggedIn()){
-            JOptionPane.showMessageDialog(rootPane, "User not logged in exiting");
-            System.exit(0);
-        }
+//        if(!LoginValidator.isLoggedIn()){
+//            JOptionPane.showMessageDialog(rootPane, "User not logged in exiting");
+//            System.exit(0);
+//        }
         initComponents();
         System.out.println(cu.getUsername());
     }
@@ -57,6 +55,14 @@ public class MainUI extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jButton9 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jButton10 = new javax.swing.JButton();
+        refreshBtn1 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        addHallBtn1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,7 +70,23 @@ public class MainUI extends javax.swing.JFrame {
 
         jTabbedPane3.setDoubleBuffered(true);
 
-        jTable1.setModel(buildHallsTable());
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Name", "Capacity", "Price", "Facilities"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        addRowsToHallTable();
         jScrollPane1.setViewportView(jTable1);
 
         addHallBtn.setText("Add hall");
@@ -174,6 +196,77 @@ public class MainUI extends javax.swing.JFrame {
 
         jTabbedPane3.addTab("Manage Bookings", jPanel2);
 
+        jButton9.setText("Delete Facility");
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Name"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        addRowsToFacilitiesTable();
+        jScrollPane3.setViewportView(jTable3);
+
+        jButton10.setText("Update Info");
+
+        refreshBtn1.setText("Refresh Table");
+
+        jButton11.setText("Search Facility");
+
+        addHallBtn1.setText("Add Faciltiy");
+        addHallBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addHallBtn1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(addHallBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(110, 110, 110)
+                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(refreshBtn1)
+                        .addGap(63, 63, 63)
+                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(87, 87, 87)
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 871, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(addHallBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                    .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(refreshBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jTabbedPane3.addTab("Manage Facilites", jPanel3);
+
         welcomeLabel.setText(welcomeLabel.getText()+cu.getUsername());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -206,7 +299,12 @@ public class MainUI extends javax.swing.JFrame {
     private void addHallBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addHallBtnActionPerformed
         // TODO add your handling code here:
         //display the new add hall dialog
+        
     }//GEN-LAST:event_addHallBtnActionPerformed
+
+    private void addHallBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addHallBtn1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addHallBtn1ActionPerformed
     
     private TableModel buildHallsTable() {
         return null;
@@ -249,6 +347,9 @@ public class MainUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addHallBtn;
+    private javax.swing.JButton addHallBtn1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -256,15 +357,20 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
     private javax.swing.JButton refreshBtn;
+    private javax.swing.JButton refreshBtn1;
     private javax.swing.JLabel welcomeLabel;
     // End of variables declaration//GEN-END:variables
 
