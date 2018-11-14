@@ -306,10 +306,11 @@ public class MainUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_addHallBtn1ActionPerformed
     
-    private TableModel buildHallsTable() {
+    private TableModel addRowsToHallTable() {
         return null;
     }
     
+    private TableModel addRowsToFacilitiesTable(){return null;}
     /**
      * @param args the command line arguments
      */
