@@ -131,9 +131,6 @@
               </Table>
             </Property>
           </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="addRowsToFacilitiesTable();"/>
-          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

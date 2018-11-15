@@ -5,11 +5,8 @@
  */
 package Services;
 
-import java.sql.ResultSet;
 
-
-public class ManageFacilities extends Manageable {
-    
-    private String tableName = "facilities";
-    public String[] columnNames = {"name"};
+public class ManageBookings extends Manageable {
+    private String tableName="halls";
+    public String[] columnNames = {"name","capacity","price","active"};
 }

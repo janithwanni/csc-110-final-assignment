@@ -8,23 +8,9 @@ package Services;
 import java.sql.ResultSet;
 
 
-public class ManageHallsHasFacilities implements Manageable {
+public class ManageHallsHasFacilities extends Manageable {
 
-    @Override
-    public void create(Object[] values, String[] columnNames) {
-    }
-
-    @Override
-    public ResultSet read(String criteria) {
-        return null;
-    }
-
-    @Override
-    public void update(Object[] values, String[] columnNames, String criteria) {
-    }
-
-    @Override
-    public void delete(String criteria) {
-    }
-    
+    private String tableName="hallsHasFacilities";
+    public String[] columnNames = {""};
+    //TODO add the necessary codes here
 }

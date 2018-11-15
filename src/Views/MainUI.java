@@ -6,6 +6,14 @@
 package Views;
 
 import Models.CurrentUser;
+import Services.ExceptionMessageDialog;
+import Services.ManageBookings;
+import Services.ManageFacilities;
+import Services.ManageHalls;
+import Services.TableModelBuilder;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 /**
@@ -15,6 +23,9 @@ import javax.swing.table.TableModel;
 public class MainUI extends javax.swing.JFrame {
 
     private CurrentUser cu = new CurrentUser();
+    private ManageFacilities mf = new ManageFacilities();
+    private ManageBookings mb = new ManageBookings();
+    private ManageHalls mh = new ManageHalls();
     /**
      * Creates new form MainUI
      */
@@ -39,7 +50,7 @@ public class MainUI extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         welcomeLabel = new javax.swing.JLabel();
-        jTabbedPane3 = new javax.swing.JTabbedPane();
+        hallTable = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -50,7 +61,7 @@ public class MainUI extends javax.swing.JFrame {
         refreshBtn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        bookingTable = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
@@ -58,35 +69,19 @@ public class MainUI extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jButton9 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jButton10 = new javax.swing.JButton();
-        refreshBtn1 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        addHallBtn1 = new javax.swing.JButton();
+        facilitiesTable = new javax.swing.JTable();
+        updateFacilitiesBtn = new javax.swing.JButton();
+        refreshBtnFacility = new javax.swing.JButton();
+        searchFacility = new javax.swing.JButton();
+        addFacilityBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         welcomeLabel.setText("Welcome, ");
 
-        jTabbedPane3.setDoubleBuffered(true);
+        hallTable.setDoubleBuffered(true);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Name", "Capacity", "Price", "Facilities"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        addRowsToHallTable();
+        jTable1.setModel(getHallsTableModel());
         jScrollPane1.setViewportView(jTable1);
 
         addHallBtn.setText("Add hall");
@@ -122,7 +117,7 @@ public class MainUI extends javax.swing.JFrame {
                         .addGap(87, 87, 87)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 871, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,20 +134,10 @@ public class MainUI extends javax.swing.JFrame {
                 .addGap(21, 21, 21))
         );
 
-        jTabbedPane3.addTab("Manage Hall", jPanel1);
+        hallTable.addTab("Manage Hall", jPanel1);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(jTable2);
+        bookingTable.setModel(getBookingsTableModel());
+        jScrollPane2.setViewportView(bookingTable);
 
         jButton5.setText("jButton1");
 
@@ -183,7 +168,7 @@ public class MainUI extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,39 +179,28 @@ public class MainUI extends javax.swing.JFrame {
                 .addGap(22, 22, 22))
         );
 
-        jTabbedPane3.addTab("Manage Bookings", jPanel2);
+        hallTable.addTab("Manage Bookings", jPanel2);
 
         jButton9.setText("Delete Facility");
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+        facilitiesTable.setModel(getFacilitiesTableModel());
+        jScrollPane3.setViewportView(facilitiesTable);
 
-            },
-            new String [] {
-                "Name"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false
-            };
+        updateFacilitiesBtn.setText("Update Info");
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        refreshBtnFacility.setText("Refresh Table");
+
+        searchFacility.setText("Search Facility");
+        searchFacility.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchFacilityActionPerformed(evt);
             }
         });
-        addRowsToFacilitiesTable();
-        jScrollPane3.setViewportView(jTable3);
 
-        jButton10.setText("Update Info");
-
-        refreshBtn1.setText("Refresh Table");
-
-        jButton11.setText("Search Facility");
-
-        addHallBtn1.setText("Add Faciltiy");
-        addHallBtn1.addActionListener(new java.awt.event.ActionListener() {
+        addFacilityBtn.setText("Add Faciltiy");
+        addFacilityBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addHallBtn1ActionPerformed(evt);
+                addFacilityBtnActionPerformed(evt);
             }
         });
 
@@ -238,17 +212,17 @@ public class MainUI extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(addHallBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addFacilityBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(110, 110, 110)
-                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(searchFacility, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(refreshBtn1)
+                        .addComponent(refreshBtnFacility)
                         .addGap(63, 63, 63)
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(updateFacilitiesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(87, 87, 87)
                         .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 871, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,15 +231,15 @@ public class MainUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(addHallBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
-                    .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(addFacilityBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                    .addComponent(searchFacility, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(refreshBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(refreshBtnFacility, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(updateFacilitiesBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        jTabbedPane3.addTab("Manage Facilites", jPanel3);
+        hallTable.addTab("Manage Facilites", jPanel3);
 
         welcomeLabel.setText(welcomeLabel.getText()+cu.getUsername());
 
@@ -280,7 +254,7 @@ public class MainUI extends javax.swing.JFrame {
                         .addComponent(welcomeLabel))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 920, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(hallTable, javax.swing.GroupLayout.PREFERRED_SIZE, 920, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -289,7 +263,7 @@ public class MainUI extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addComponent(welcomeLabel)
                 .addGap(18, 18, 18)
-                .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(hallTable, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(34, Short.MAX_VALUE))
         );
 
@@ -302,15 +276,53 @@ public class MainUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_addHallBtnActionPerformed
 
-    private void addHallBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addHallBtn1ActionPerformed
+    private void addFacilityBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFacilityBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_addHallBtn1ActionPerformed
+        String result = JOptionPane.showInputDialog(rootPane, "Enter the name of the facility");
+        
+        String[] values = {result};
+        mf.create(values, mf.columnNames);
+        DefaultTableModel dtm = (DefaultTableModel) facilitiesTable.getModel();
+        dtm.fireTableDataChanged();
+    }//GEN-LAST:event_addFacilityBtnActionPerformed
+
+    private void searchFacilityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFacilityActionPerformed
+        // TODO add your handling code here:
+        String result = JOptionPane.showInputDialog(rootPane, "Enter name of facility to search for");
+        
+    }//GEN-LAST:event_searchFacilityActionPerformed
     
-    private TableModel addRowsToHallTable() {
-        return null;
+    private TableModel getHallsTableModel() {
+        try {
+            
+            return TableModelBuilder.build(mh.read("ALL"));
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
+            return null;
+        }
     }
     
-    private TableModel addRowsToFacilitiesTable(){return null;}
+    private TableModel getFacilitiesTableModel(){
+        try {
+            
+            return TableModelBuilder.build(mf.read("ALL"));
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
+            return null;
+        }
+    }
+    private TableModel getBookingsTableModel(){
+        try {
+            
+            return TableModelBuilder.build(mb.read("ALL"));
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
+            return null;
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -347,10 +359,11 @@ public class MainUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addFacilityBtn;
     private javax.swing.JButton addHallBtn;
-    private javax.swing.JButton addHallBtn1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
+    private javax.swing.JTable bookingTable;
+    private javax.swing.JTable facilitiesTable;
+    private javax.swing.JTabbedPane hallTable;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -366,12 +379,11 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JButton refreshBtn;
-    private javax.swing.JButton refreshBtn1;
+    private javax.swing.JButton refreshBtnFacility;
+    private javax.swing.JButton searchFacility;
+    private javax.swing.JButton updateFacilitiesBtn;
     private javax.swing.JLabel welcomeLabel;
     // End of variables declaration//GEN-END:variables
 

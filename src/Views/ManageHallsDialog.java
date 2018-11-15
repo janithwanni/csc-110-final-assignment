@@ -7,12 +7,15 @@ package Views;
 
 import Database.DatabaseConnector;
 import Services.ExceptionMessageDialog;
+import Services.ManageFacilities;
 import Services.ManageHalls;
+import Services.TableModelBuilder;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -88,7 +91,6 @@ public class ManageHallsDialog extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        addRowsToFacilitiesTable();
         jScrollPane1.setViewportView(jTable1);
 
         capacitySpnr.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
@@ -154,30 +156,24 @@ public class ManageHallsDialog extends javax.swing.JFrame {
         // TODO add your handling code here:
         // TODO validate the price and the capacity to be non zero
         String hallName = hallNameTxt.getText();
-        int capacity  = (int) capacitySpnr.getValue();
+        int capacity = (int) capacitySpnr.getValue();
         double price = (double) priceSpnr.getValue();
-        String columnNames[] = {"name","capacity","price"};
-        Object values[] = {hallName,capacity,price};
+        String columnNames[] = {"name", "capacity", "price"};
+        Object values[] = {hallName, capacity, price};
         ManageHalls mh = new ManageHalls();
         mh.create(values, columnNames);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void addRowsToFacilitiesTable() {
+    private TableModel getFacilitiesTableModel() {
         try {
-            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
-            DatabaseConnector dc = new DatabaseConnector();
-            ResultSet facilities = dc.select("select * from facilities");
-            while(facilities.next()){
-                Object[] rowData = new Object[2];
-                rowData[0] = facilities.getString("name");
-                rowData[1] = 0;
-                dtm.addRow(rowData);
-            }
+            ManageFacilities mf = new ManageFacilities();
+            return TableModelBuilder.build(mf.read("ALL"));
         } catch (SQLException ex) {
             ex.printStackTrace();
             ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
+            return null;
         }
-        
+
     }
 
     /**
