@@ -39,11 +39,17 @@ public class DatabaseValidator {
             return true;
         }else{
             //TODO: add code to restore sql dump file
+            //create table users(id int auto_increment primary key,username varchar(200), password varchar(128));
             //create halls
-            //create table halls( hallid int auto_increment, name varchar(200), capacity int, price float(2), active boolean, primary key(hallid));
+            //create table halls( hallid int auto_increment, name varchar(200), capacity int, price float(2), primary key(hallid));
             //create facilities
             //create table facilities(facilityid int auto_increment, name varchar(200),primary key(facilityid));
-        }
+        }   //create hall has facilities            
+            /*
+            create table hall_has_facilities(hall_has_facility_id int auto_increment, hallid int, facilityid int, name varchar(200),count int, primary key(hall_has_facility_id), 
+            constraint foreign_key_check_1  foreign key(hallid) references halls(hallid) on delete cascade on update restrict, 
+            constraint foreign_key_check_2 foreign key(facilityid) references facilities(facilityid) on delete cascade on update restrict);
+            */
         return false;
     }
 }

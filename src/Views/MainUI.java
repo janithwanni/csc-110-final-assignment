@@ -7,11 +7,14 @@ package Views;
 
 import Models.CurrentUser;
 import Services.ExceptionMessageDialog;
-import Services.ManageBookings;
-import Services.ManageFacilities;
-import Services.ManageHalls;
+import Services.ManageOperations.ManageBookings;
+import Services.ManageOperations.ManageFacilities;
+import Services.ManageOperations.ManageHalls;
 import Services.TableModelBuilder;
+import Views.ManageHalls.AddHallsDialog;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -26,6 +29,7 @@ public class MainUI extends javax.swing.JFrame {
     private ManageFacilities mf = new ManageFacilities();
     private ManageBookings mb = new ManageBookings();
     private ManageHalls mh = new ManageHalls();
+
     /**
      * Creates new form MainUI
      */
@@ -37,7 +41,6 @@ public class MainUI extends javax.swing.JFrame {
         initComponents();
         System.out.println(cu.getUsername());
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -98,6 +101,11 @@ public class MainUI extends javax.swing.JFrame {
         jButton4.setText("Delete Hall");
 
         refreshBtn.setText("Refresh Table");
+        refreshBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -187,6 +195,11 @@ public class MainUI extends javax.swing.JFrame {
         jScrollPane3.setViewportView(facilitiesTable);
 
         updateFacilitiesBtn.setText("Update Info");
+        updateFacilitiesBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateFacilitiesBtnActionPerformed(evt);
+            }
+        });
 
         refreshBtnFacility.setText("Refresh Table");
 
@@ -273,39 +286,80 @@ public class MainUI extends javax.swing.JFrame {
     private void addHallBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addHallBtnActionPerformed
         // TODO add your handling code here:
         //display the new add hall dialog
-        
+        AddHallsDialog ahd = new AddHallsDialog();
+        ahd.setVisible(true);
     }//GEN-LAST:event_addHallBtnActionPerformed
 
     private void addFacilityBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFacilityBtnActionPerformed
         // TODO add your handling code here:
         String result = JOptionPane.showInputDialog(rootPane, "Enter the name of the facility");
-        
+
         String[] values = {result};
         mf.create(values, mf.columnNames);
-        DefaultTableModel dtm = (DefaultTableModel) facilitiesTable.getModel();
-        dtm.fireTableDataChanged();
+        try {
+            facilitiesTable.setModel(TableModelBuilder.build(mf.read("ALL")));
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
+        }
     }//GEN-LAST:event_addFacilityBtnActionPerformed
 
     private void searchFacilityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFacilityActionPerformed
-        // TODO add your handling code here:
-        String result = JOptionPane.showInputDialog(rootPane, "Enter name of facility to search for");
-        
+        try {
+            // TODO add your handling code here:
+            String result = JOptionPane.showInputDialog(rootPane, "Enter name of facility to search for");
+            if (result.equals("")) {
+                facilitiesTable.setModel(TableModelBuilder.build(mf.read("ALL")));
+            } else {
+                facilitiesTable.setModel(TableModelBuilder.build(mf.read("name like '%" + result + "%'")));
+            }
+            facilitiesTable.validate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
+        }
     }//GEN-LAST:event_searchFacilityActionPerformed
-    
+
+    private void updateFacilitiesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateFacilitiesBtnActionPerformed
+        // TODO add your handling code here:
+        if (facilitiesTable.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Select a row from the table to continue");
+        } else {
+            String currentValue = facilitiesTable.getValueAt(facilitiesTable.getSelectedRow(), 1).toString();
+            String result = JOptionPane.showInputDialog(rootPane, "Enter updated name", currentValue);
+            String[] values = {result};
+            mf.update(values, mf.columnNames, "facilityid = '" + facilitiesTable.getValueAt(facilitiesTable.getSelectedRow(), 0).toString()+"'");
+            try {
+                facilitiesTable.setModel(TableModelBuilder.build(mf.read("ALL")));
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
+            }
+        }
+
+    }//GEN-LAST:event_updateFacilitiesBtnActionPerformed
+
+    private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel dtm = (DefaultTableModel) hallTable.getModel();
+        dtm.fireTableDataChanged();
+    }//GEN-LAST:event_refreshBtnActionPerformed
+
     private TableModel getHallsTableModel() {
         try {
-            
-            return TableModelBuilder.build(mh.read("ALL"));
+
+            DefaultTableModel dtm = (DefaultTableModel) TableModelBuilder.build(mh.read("ALL"));
+            return dtm;
         } catch (SQLException ex) {
             ex.printStackTrace();
             ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
             return null;
         }
     }
-    
-    private TableModel getFacilitiesTableModel(){
+
+    private TableModel getFacilitiesTableModel() {
         try {
-            
+
             return TableModelBuilder.build(mf.read("ALL"));
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -313,9 +367,10 @@ public class MainUI extends javax.swing.JFrame {
             return null;
         }
     }
-    private TableModel getBookingsTableModel(){
+
+    private TableModel getBookingsTableModel() {
         try {
-            
+
             return TableModelBuilder.build(mb.read("ALL"));
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -323,6 +378,7 @@ public class MainUI extends javax.swing.JFrame {
             return null;
         }
     }
+
     /**
      * @param args the command line arguments
      */
@@ -387,5 +443,4 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JLabel welcomeLabel;
     // End of variables declaration//GEN-END:variables
 
-    
 }

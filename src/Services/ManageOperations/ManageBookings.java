@@ -3,10 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Services;
+package Services.ManageOperations;
 
 
 public class ManageBookings extends Manageable {
-    private String tableName="halls";
-    public String[] columnNames = {"name","capacity","price","active"};
+
+    public ManageBookings() {
+    //TODO add bookings table and column names
+    tableName="halls";
+    String[] c = {"name","capacity","price","active"};
+    columnNames = c;
+    }
 }

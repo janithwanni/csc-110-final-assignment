@@ -3,10 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Services;
+package Services.ManageOperations;
 
 import Database.DatabaseConnector;
+import Services.ExceptionMessageDialog;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,9 +21,9 @@ public abstract class Manageable {
     //made abstract to prevent instantiation only do not forget
     //extend this class and set the tableName to get the functionality of CRUD opsÏ
     DatabaseConnector dc = new DatabaseConnector();
-    String tableName = "tableName";
+    protected String tableName = "tableName";
     public String[] columnNames = {""};
-
+    
     public void create(Object[] values, String[] columnNames) {
         String columnList = "";
         String valueList = "";
@@ -36,6 +40,7 @@ public abstract class Manageable {
     }
 
     public ResultSet read(String criteria) {
+        System.out.println("reading table name"+tableName);
         if (criteria == "ALL") {
             ResultSet result = dc.select("select * from " + tableName);
             return result;
@@ -58,5 +63,20 @@ public abstract class Manageable {
 
     public void delete(String criteria) {
         System.out.println("update " + tableName + " set active=0 where " + criteria);
+        //TODO add delete function
+    }
+    
+    public int getLastInsertID(){
+        try {
+            ResultSet r = dc.select("select last_insert_id() as lid");
+            r.next();
+            return r.getInt("lid");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            ExceptionMessageDialog.show(null,ex.getLocalizedMessage());
+            return 0;
+        }
+        
+        
     }
 }

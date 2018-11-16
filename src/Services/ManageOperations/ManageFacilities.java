@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Services;
+package Services.ManageOperations;
 
 import java.sql.ResultSet;
 
 
-public class ManageHallsHasFacilities extends Manageable {
+public class ManageFacilities extends Manageable {
 
-    private String tableName="hallsHasFacilities";
-    public String[] columnNames = {""};
-    //TODO add the necessary codes here
+    public ManageFacilities() {
+     tableName = "facilities";
+     String[] c = {"name"};
+    columnNames = c;
+    }  
 }

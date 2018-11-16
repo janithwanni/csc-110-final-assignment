@@ -3,17 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Views;
+package Views.ManageHalls;
 
 import Database.DatabaseConnector;
 import Services.ExceptionMessageDialog;
-import Services.ManageFacilities;
-import Services.ManageHalls;
+import Services.ManageOperations.ManageFacilities;
+import Services.ManageOperations.ManageHalls;
+import Services.ManageOperations.ManageHallsHasFacilities;
 import Services.TableModelBuilder;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -21,12 +26,12 @@ import javax.swing.table.TableModel;
  *
  * @author JanithWanni
  */
-public class ManageHallsDialog extends javax.swing.JFrame {
+public class AddHallsDialog extends javax.swing.JFrame {
 
     /**
      * Creates new form ManageHallsDialog
      */
-    public ManageHallsDialog() {
+    public AddHallsDialog() {
         initComponents();
     }
 
@@ -46,7 +51,7 @@ public class ManageHallsDialog extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        facilitesTable = new javax.swing.JTable();
         hallNameTxt = new javax.swing.JTextField();
         capacitySpnr = new javax.swing.JSpinner();
         priceSpnr = new javax.swing.JSpinner();
@@ -68,30 +73,8 @@ public class ManageHallsDialog extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Name ", "Count"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
+        facilitesTable.setModel(getFacilitiesTableModel());
+        jScrollPane1.setViewportView(facilitesTable);
 
         capacitySpnr.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
 
@@ -158,16 +141,33 @@ public class ManageHallsDialog extends javax.swing.JFrame {
         String hallName = hallNameTxt.getText();
         int capacity = (int) capacitySpnr.getValue();
         double price = (double) priceSpnr.getValue();
-        String columnNames[] = {"name", "capacity", "price"};
         Object values[] = {hallName, capacity, price};
         ManageHalls mh = new ManageHalls();
-        mh.create(values, columnNames);
+        mh.create(values, mh.columnNames);
+        int lastInsertID = mh.getLastInsertID();
+        ManageHallsHasFacilities mhf = new ManageHallsHasFacilities(); 
+        for (int i = 0; i < facilitesTable.getRowCount(); i++) {
+            if(!facilitesTable.getValueAt(i, 2).toString().equals("0")){
+                String[] temp  = {lastInsertID+"",facilitesTable.getValueAt(i,0 ).toString(),facilitesTable.getValueAt(i, 1).toString(),facilitesTable.getValueAt(i, 2).toString()};
+                mhf.create(temp, mhf.columnNames);
+                System.out.println(facilitesTable.getValueAt(i, 1).toString()+"_"+facilitesTable.getValueAt(i, 2).toString());
+            }
+        }
+        
+        JOptionPane.showMessageDialog(rootPane, "Hall creation successful");
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private TableModel getFacilitiesTableModel() {
         try {
             ManageFacilities mf = new ManageFacilities();
-            return TableModelBuilder.build(mf.read("ALL"));
+            DefaultTableModel baseModel =  (DefaultTableModel) TableModelBuilder.build(mf.read("ALL"));
+            Vector v = new Vector();
+            for (int i = 0; i < baseModel.getRowCount(); i++) {
+                v.add(0);
+            }
+            baseModel.addColumn("Count", v);
+            return baseModel;
         } catch (SQLException ex) {
             ex.printStackTrace();
             ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
@@ -193,26 +193,28 @@ public class ManageHallsDialog extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManageHallsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddHallsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManageHallsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddHallsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManageHallsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddHallsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ManageHallsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddHallsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ManageHallsDialog().setVisible(true);
+                new AddHallsDialog().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner capacitySpnr;
+    private javax.swing.JTable facilitesTable;
     private javax.swing.JTextField hallNameTxt;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -221,7 +223,6 @@ public class ManageHallsDialog extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JSpinner priceSpnr;
     // End of variables declaration//GEN-END:variables
 

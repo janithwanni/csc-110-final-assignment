@@ -5,6 +5,7 @@
  */
 package Database;
 
+import Services.ExceptionMessageDialog;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -32,6 +33,7 @@ public class DatabaseConnector {
             statement = con.createStatement();
         } catch (SQLException ex) {
             ex.printStackTrace();
+            ExceptionMessageDialog.show(null,ex.getLocalizedMessage());
         }
     }
     
@@ -40,6 +42,7 @@ public class DatabaseConnector {
             statement.executeUpdate(query);
         } catch (SQLException ex) {
             ex.printStackTrace();
+            ExceptionMessageDialog.show(null,ex.getLocalizedMessage());
         }
     }
     public ResultSet select(String query){
@@ -47,6 +50,7 @@ public class DatabaseConnector {
             return statement.executeQuery(query);
         } catch (SQLException ex) {
             ex.printStackTrace();
+            ExceptionMessageDialog.show(null,ex.getLocalizedMessage());
             return null;
         }
     }
@@ -54,7 +58,8 @@ public class DatabaseConnector {
         try{
            statement.executeUpdate(query);
         }catch(SQLException e){
-            
+            e.printStackTrace();
+            ExceptionMessageDialog.show(null,e.getLocalizedMessage());
         }
     }
     public void delete(String query){
@@ -62,6 +67,7 @@ public class DatabaseConnector {
             statement.executeUpdate(query);
         }catch(SQLException e){
             e.printStackTrace();
+            ExceptionMessageDialog.show(null,e.getLocalizedMessage());
         }
     }
 }
