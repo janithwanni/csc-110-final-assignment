@@ -18,6 +18,10 @@ import java.util.logging.Logger;
  *
  * @author JanithWanni
  */
+/*
+  NEW STATEMENTS ARE MADE FOR EACH QUERY TO ENSURE THAT 
+  TWO RESULT SETS ARENT OPENED BY THE SAME STATEMENTS
+*/
 public class DatabaseConnector {
     public static final String DB_NAME = "reservation_system_db";
     public static final String DB_URL = "jdbc:mysql://localhost:3306/"+DB_NAME;
@@ -47,7 +51,7 @@ public class DatabaseConnector {
     }
     public ResultSet select(String query){
         try {
-            return statement.executeQuery(query);
+            return con.createStatement().executeQuery(query);
         } catch (SQLException ex) {
             ex.printStackTrace();
             ExceptionMessageDialog.show(null,ex.getLocalizedMessage());

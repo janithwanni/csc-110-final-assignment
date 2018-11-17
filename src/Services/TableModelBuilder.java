@@ -34,6 +34,7 @@ public class TableModelBuilder {
             }
             data.add(row);
         }
+        rs.close();
         return new DefaultTableModel(data, columnNames);
     }
 }

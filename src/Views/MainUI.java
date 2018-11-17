@@ -11,7 +11,10 @@ import Services.ManageOperations.ManageBookings;
 import Services.ManageOperations.ManageFacilities;
 import Services.ManageOperations.ManageHalls;
 import Services.TableModelBuilder;
-import Views.ManageHalls.AddHallsDialog;
+import Views.ManageHalls.AddHallsView;
+import Views.ManageHalls.SearchHallsView;
+import Views.ManageHalls.UpdateHallsView;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,10 +56,10 @@ public class MainUI extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         welcomeLabel = new javax.swing.JLabel();
-        hallTable = new javax.swing.JTabbedPane();
+        tabView = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        hallTable = new javax.swing.JTable();
         addHallBtn = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -82,10 +85,10 @@ public class MainUI extends javax.swing.JFrame {
 
         welcomeLabel.setText("Welcome, ");
 
-        hallTable.setDoubleBuffered(true);
+        tabView.setDoubleBuffered(true);
 
-        jTable1.setModel(getHallsTableModel());
-        jScrollPane1.setViewportView(jTable1);
+        hallTable.setModel(getHallsTableModel());
+        jScrollPane1.setViewportView(hallTable);
 
         addHallBtn.setText("Add hall");
         addHallBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -95,10 +98,25 @@ public class MainUI extends javax.swing.JFrame {
         });
 
         jButton2.setText("Search Hall");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Update Info");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Delete Hall");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         refreshBtn.setText("Refresh Table");
         refreshBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -142,7 +160,7 @@ public class MainUI extends javax.swing.JFrame {
                 .addGap(21, 21, 21))
         );
 
-        hallTable.addTab("Manage Hall", jPanel1);
+        tabView.addTab("Manage Hall", jPanel1);
 
         bookingTable.setModel(getBookingsTableModel());
         jScrollPane2.setViewportView(bookingTable);
@@ -187,7 +205,7 @@ public class MainUI extends javax.swing.JFrame {
                 .addGap(22, 22, 22))
         );
 
-        hallTable.addTab("Manage Bookings", jPanel2);
+        tabView.addTab("Manage Bookings", jPanel2);
 
         jButton9.setText("Delete Facility");
 
@@ -252,7 +270,7 @@ public class MainUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        hallTable.addTab("Manage Facilites", jPanel3);
+        tabView.addTab("Manage Facilites", jPanel3);
 
         welcomeLabel.setText(welcomeLabel.getText()+cu.getUsername());
 
@@ -267,7 +285,7 @@ public class MainUI extends javax.swing.JFrame {
                         .addComponent(welcomeLabel))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addComponent(hallTable, javax.swing.GroupLayout.PREFERRED_SIZE, 920, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(tabView, javax.swing.GroupLayout.PREFERRED_SIZE, 920, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -276,7 +294,7 @@ public class MainUI extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addComponent(welcomeLabel)
                 .addGap(18, 18, 18)
-                .addComponent(hallTable, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabView, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(34, Short.MAX_VALUE))
         );
 
@@ -286,21 +304,32 @@ public class MainUI extends javax.swing.JFrame {
     private void addHallBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addHallBtnActionPerformed
         // TODO add your handling code here:
         //display the new add hall dialog
-        AddHallsDialog ahd = new AddHallsDialog();
-        ahd.setVisible(true);
+        AddHallsView ahv = new AddHallsView();
+        int result = JOptionPane.showConfirmDialog(this, ahv, "Add Halls", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (result == JOptionPane.OK_OPTION) {
+            ahv.createHall();
+            JOptionPane.showMessageDialog(this, "Hall creation successful");
+            try {
+                hallTable.setModel(TableModelBuilder.build(mh.read("ALL")));
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
+            }
+        }
     }//GEN-LAST:event_addHallBtnActionPerformed
 
     private void addFacilityBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFacilityBtnActionPerformed
         // TODO add your handling code here:
         String result = JOptionPane.showInputDialog(rootPane, "Enter the name of the facility");
-
-        String[] values = {result};
-        mf.create(values, mf.columnNames);
-        try {
-            facilitiesTable.setModel(TableModelBuilder.build(mf.read("ALL")));
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
+        if (result != null) {
+            String[] values = {result};
+            mf.create(values, mf.columnNames);
+            try {
+                facilitiesTable.setModel(TableModelBuilder.build(mf.read("ALL")));
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
+            }
         }
     }//GEN-LAST:event_addFacilityBtnActionPerformed
 
@@ -328,7 +357,7 @@ public class MainUI extends javax.swing.JFrame {
             String currentValue = facilitiesTable.getValueAt(facilitiesTable.getSelectedRow(), 1).toString();
             String result = JOptionPane.showInputDialog(rootPane, "Enter updated name", currentValue);
             String[] values = {result};
-            mf.update(values, mf.columnNames, "facilityid = '" + facilitiesTable.getValueAt(facilitiesTable.getSelectedRow(), 0).toString()+"'");
+            mf.update(values, mf.columnNames, "facilityid = '" + facilitiesTable.getValueAt(facilitiesTable.getSelectedRow(), 0).toString() + "'");
             try {
                 facilitiesTable.setModel(TableModelBuilder.build(mf.read("ALL")));
             } catch (SQLException ex) {
@@ -340,10 +369,68 @@ public class MainUI extends javax.swing.JFrame {
     }//GEN-LAST:event_updateFacilitiesBtnActionPerformed
 
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
-        // TODO add your handling code here:
-        DefaultTableModel dtm = (DefaultTableModel) hallTable.getModel();
-        dtm.fireTableDataChanged();
+        try {
+            // TODO add your handling code here:
+            hallTable.setModel(TableModelBuilder.build(mh.read("ALL")));
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
+        }
     }//GEN-LAST:event_refreshBtnActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        SearchHallsView shv = new SearchHallsView();
+        int result = JOptionPane.showConfirmDialog(this, shv, "Search Halls", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (result == JOptionPane.OK_OPTION) {
+            ResultSet searchResults = shv.searchHalls();
+            try {
+                hallTable.setModel(TableModelBuilder.build(searchResults));
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        if (hallTable.getSelectedRow() != -1) {
+            try {
+                int hallid = Integer.parseInt(hallTable.getValueAt(hallTable.getSelectedRow(), 0).toString());
+                UpdateHallsView uhv = new UpdateHallsView(hallid);
+                int result = JOptionPane.showConfirmDialog(this, uhv, "Update Halls", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Select a row from the table to update");
+        }
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        //delete halls
+        if (hallTable.getSelectedRow() != -1) {
+            int hallid = Integer.parseInt(hallTable.getValueAt(hallTable.getSelectedRow(), 0).toString());
+            int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this hall", "Delete Hall", JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                mh.delete("hallid = " + hallid);
+                JOptionPane.showMessageDialog(this, "Hall deleted Successfully");
+                try {
+                    // TODO add your handling code here:
+                    hallTable.setModel(TableModelBuilder.build(mh.read("ALL")));
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Select a row from the table to delete");
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     private TableModel getHallsTableModel() {
         try {
@@ -419,7 +506,7 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JButton addHallBtn;
     private javax.swing.JTable bookingTable;
     private javax.swing.JTable facilitiesTable;
-    private javax.swing.JTabbedPane hallTable;
+    private javax.swing.JTable hallTable;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -435,10 +522,10 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton refreshBtn;
     private javax.swing.JButton refreshBtnFacility;
     private javax.swing.JButton searchFacility;
+    private javax.swing.JTabbedPane tabView;
     private javax.swing.JButton updateFacilitiesBtn;
     private javax.swing.JLabel welcomeLabel;
     // End of variables declaration//GEN-END:variables
