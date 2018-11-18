@@ -323,6 +323,7 @@ public class SearchBookingsView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_searchHallsActionPerformed
 
+    
     private void bookedByTxtKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bookedByTxtKeyReleased
         // TODO add your handling code here:
         bookedBySelectedChk.setSelected(!bookedByTxt.getText().equals(""));
@@ -392,7 +393,8 @@ public class SearchBookingsView extends javax.swing.JPanel {
         }
     }
     public ResultSet searchBookings(){
-        return null;
+        String criteria = "";
+        return mb.read(criteria);
     }
 
     private String getBitConf() {
