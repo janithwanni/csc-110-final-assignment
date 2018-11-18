@@ -62,7 +62,9 @@ public abstract class Manageable {
     }
 
     public void delete(String criteria) {
-        System.out.println("update " + tableName + " set active=0 where " + criteria);
+        System.out.println("delete from "+tableName+" where "+criteria);
+        dc.delete("delete from "+tableName+" where "+criteria);
+        //System.out.println("update " + tableName + " set active=0 where " + criteria);
         //TODO add delete function
     }
     

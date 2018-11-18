@@ -47,9 +47,15 @@ public class DatabaseValidator {
         }   //create hall has facilities            
             /*
             create table hall_has_facilities(hall_has_facility_id int auto_increment, hallid int, facilityid int, name varchar(200),count int, primary key(hall_has_facility_id), 
-            constraint foreign_key_check_1  foreign key(hallid) references halls(hallid) on delete cascade on update restrict, 
+            constraint foreign_key_check_1 foreign key(hallid) references halls(hallid) on delete cascade on update restrict, 
             constraint foreign_key_check_2 foreign key(facilityid) references facilities(facilityid) on delete cascade on update restrict);
             */
+            //create table bookings
+            //create table 
+            /* create table bookings(bookingid int auto_increment, hallid int, bookedby varchar(200), confirmed smallint,startdate date, enddate date,dayconfig varchar(7),
+               primary key(bookingid),
+               constraint foreign_key_check_3 foreign key(hallid) references halls(hallid) on delete cascade on update restrict);               
+        */
         return false;
     }
 }

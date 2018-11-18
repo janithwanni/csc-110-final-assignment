@@ -30,15 +30,17 @@ public class UpdateHallsView extends javax.swing.JPanel {
     private ManageHalls mh  = new ManageHalls();
     private ManageHallsHasFacilities mhf = new ManageHallsHasFacilities();
     private ManageFacilities mf = new ManageFacilities();
+    private int hallid;
     public UpdateHallsView() {
         initComponents();
     }
     
     public UpdateHallsView(int hallid) throws SQLException{
         this();
+        this.hallid = hallid;
         ResultSet initResults = mh.read("hallid = "+hallid);
         while(initResults.next()){
-            hallNameTxt.setText(initResults.getString("hallid"));
+            hallNameTxt.setText(initResults.getString("name"));
             capacitySpnr.setValue(initResults.getObject("capacity"));
             priceSpnr.setValue(initResults.getObject("price"));
             DefaultTableModel baseModel = (DefaultTableModel) TableModelBuilder.build(mf.read("ALL"));  
@@ -85,20 +87,25 @@ public class UpdateHallsView extends javax.swing.JPanel {
 
     }
     public void updateHalls(){
-        String criteria = "";
-        if(jCheckBox1.isSelected()){
-            //hallname changed
-        }
-        if(jCheckBox2.isSelected()){
-            //capacity changed
-        }
-        if(jCheckBox3.isSelected()){
-            //price changed
-        }
+        
+        Object[] hallValueList = new String[mh.columnNames.length];
+        hallValueList[0] = hallNameTxt.getText();
+        hallValueList[1] = capacitySpnr.getValue().toString();
+        hallValueList[2] = priceSpnr.getValue().toString();
+        mh.update(hallValueList, mh.columnNames, "hallid = "+hallid);
         if(jCheckBox4.isSelected()){
             //facilities edited
             //if zero count then delete thats all
             //if it is not there in the database then 0 rows affected
+            for (int i = 0; i < facilitesTable.getRowCount(); i++) {
+                if(facilitesTable.getValueAt(i, 2).toString().equals("0")){
+                    mhf.delete("hallid = "+hallid+" and facilityid ="+facilitesTable.getValueAt(i, 0));
+                }else{
+                    Object[] countHolder = { facilitesTable.getValueAt(i, 2)};
+                    String[] columnHolder = {"count"};
+                    mhf.update(countHolder,columnHolder,"hallid = "+hallid+" and facilityid ="+facilitesTable.getValueAt(i, 0));
+                }
+            }
             
         }
     }
