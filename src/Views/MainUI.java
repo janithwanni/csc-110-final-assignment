@@ -11,6 +11,8 @@ import Services.ManageOperations.ManageBookings;
 import Services.ManageOperations.ManageFacilities;
 import Services.ManageOperations.ManageHalls;
 import Services.TableModelBuilder;
+import Views.ManageBookings.AddBookingsView;
+import Views.ManageBookings.SearchBookingsView;
 import Views.ManageHalls.AddHallsView;
 import Views.ManageHalls.SearchHallsView;
 import Views.ManageHalls.UpdateHallsView;
@@ -68,8 +70,8 @@ public class MainUI extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         bookingTable = new javax.swing.JTable();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        addBookingsBtn = new javax.swing.JButton();
+        searchBookingsBtn = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -166,14 +168,19 @@ public class MainUI extends javax.swing.JFrame {
         bookingTable.setModel(getBookingsTableModel());
         jScrollPane2.setViewportView(bookingTable);
 
-        jButton5.setText("Add Booking");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        addBookingsBtn.setText("Add Booking");
+        addBookingsBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                addBookingsBtnActionPerformed(evt);
             }
         });
 
-        jButton6.setText("Search Booking");
+        searchBookingsBtn.setText("Search Booking");
+        searchBookingsBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBookingsBtnActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("Update Booking");
 
@@ -189,9 +196,9 @@ public class MainUI extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addBookingsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(110, 110, 110)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(searchBookingsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(46, 46, 46)
                         .addComponent(jButton1)
                         .addGap(46, 46, 46)
@@ -208,8 +215,8 @@ public class MainUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(addBookingsBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+                    .addComponent(searchBookingsBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -411,7 +418,7 @@ public class MainUI extends javax.swing.JFrame {
                 int hallid = Integer.parseInt(hallTable.getValueAt(hallTable.getSelectedRow(), 0).toString());
                 UpdateHallsView uhv = new UpdateHallsView(hallid);
                 int result = JOptionPane.showConfirmDialog(this, uhv, "Update Halls", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-                if(result == JOptionPane.OK_OPTION){
+                if (result == JOptionPane.OK_OPTION) {
                     uhv.updateHalls();
                 }
             } catch (SQLException ex) {
@@ -446,10 +453,36 @@ public class MainUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void addBookingsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBookingsBtnActionPerformed
         // TODO add your handling code here:
         //add Booking
-    }//GEN-LAST:event_jButton5ActionPerformed
+        AddBookingsView abv = new AddBookingsView();
+        int result = JOptionPane.showConfirmDialog(this, abv, "Add booking", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (result == JOptionPane.OK_OPTION) {
+            abv.addBooking();
+            try {
+                bookingTable.setModel(TableModelBuilder.build(mb.read("ALL")));
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
+            }
+        }
+    }//GEN-LAST:event_addBookingsBtnActionPerformed
+
+    private void searchBookingsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBookingsBtnActionPerformed
+        // TODO add your handling code here:
+        SearchBookingsView sbv = new SearchBookingsView();
+        int result = JOptionPane.showConfirmDialog(this, sbv,"Search Halls",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
+        if(result == JOptionPane.OK_OPTION){
+            try {
+                ResultSet searchResults = sbv.searchBookings();
+                //bookingTable.setModel(TableModelBuilder.build(searchResults));
+            } catch (Exception ex) {
+                Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+    }//GEN-LAST:event_searchBookingsBtnActionPerformed
 
     private TableModel getHallsTableModel() {
         try {
@@ -521,6 +554,7 @@ public class MainUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addBookingsBtn;
     private javax.swing.JButton addFacilityBtn;
     private javax.swing.JButton addHallBtn;
     private javax.swing.JTable bookingTable;
@@ -530,8 +564,6 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
@@ -544,6 +576,7 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton refreshBtn;
     private javax.swing.JButton refreshBtnFacility;
+    private javax.swing.JButton searchBookingsBtn;
     private javax.swing.JButton searchFacility;
     private javax.swing.JTabbedPane tabView;
     private javax.swing.JButton updateFacilitiesBtn;
