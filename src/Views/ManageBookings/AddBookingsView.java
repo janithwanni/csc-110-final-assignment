@@ -12,6 +12,8 @@ import Services.ManageOperations.ManageHalls;
 import Services.Validator.ValidateBooking;
 import Views.ManageHalls.SearchHallsView;
 import Views.ManageHalls.SelectHallTableView;
+import com.github.lgooddatepicker.optionalusertools.DateChangeListener;
+import com.github.lgooddatepicker.zinternaltools.DateChangeEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -28,14 +30,14 @@ public class AddBookingsView extends javax.swing.JPanel {
     /**
      * Creates new form AddBookingsView
      */
-    
     public AddBookingsView() {
         initComponents();
     }
-
+    
     private ManageHalls mh = new ManageHalls();
     private ManageBookings mb = new ManageBookings();
     private int hallId = -1;
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,6 +67,7 @@ public class AddBookingsView extends javax.swing.JPanel {
         endDatePicker = new com.github.lgooddatepicker.components.DatePicker();
         jLabel7 = new javax.swing.JLabel();
         bookedByTxt = new javax.swing.JTextField();
+        allDayChk = new javax.swing.JCheckBox();
 
         jLabel1.setText("Search Halls");
 
@@ -104,10 +107,16 @@ public class AddBookingsView extends javax.swing.JPanel {
         hallSearchResultLabel.setText(" ");
 
         startDatePicker.setText("Pick Start Date");
+        startDatePicker.addDateChangeListener(new DateChangeListenerChk("START"));
+        endDatePicker.addDateChangeListener(new DateChangeListenerChk("END"));
 
         endDatePicker.setText("Pick End Date");
+        startDatePicker.addDateChangeListener(new DateChangeListenerChk("START"));
+        endDatePicker.addDateChangeListener(new DateChangeListenerChk("END"));
 
         jLabel7.setText("Booked By");
+
+        allDayChk.setText("All-day");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -117,12 +126,17 @@ public class AddBookingsView extends javax.swing.JPanel {
                 .addGap(172, 172, 172)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(searchHalls)
@@ -138,7 +152,8 @@ public class AddBookingsView extends javax.swing.JPanel {
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(FridayChk)
                                         .addComponent(ThursdayChk)
-                                        .addComponent(SaturdayChk)))))
+                                        .addComponent(SaturdayChk)))
+                                .addComponent(allDayChk)))
                         .addGap(18, 18, 18)
                         .addComponent(SundayChk)
                         .addContainerGap(45, Short.MAX_VALUE))
@@ -184,14 +199,16 @@ public class AddBookingsView extends javax.swing.JPanel {
                     .addComponent(ThursdayChk)
                     .addComponent(SundayChk))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TuesdayChk)
-                    .addComponent(FridayChk))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(FridayChk, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(TuesdayChk))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(WednesdayChk)
                     .addComponent(SaturdayChk))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(allDayChk)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(confirmedChk))
@@ -210,7 +227,7 @@ public class AddBookingsView extends javax.swing.JPanel {
                 SelectHallTableView shtv = new SelectHallTableView(searchResultSet);
                 int secondResult = JOptionPane.showConfirmDialog(this, shtv, "Select Halls", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if (secondResult == JOptionPane.OK_OPTION && shtv.getSelectedHall() != -1) {
-
+                    
                     int hallid = shtv.getSelectedHall();
                     this.hallId = hallid;
                     ResultSet hallResult = mh.read("hallid = " + hallid);
@@ -221,8 +238,8 @@ public class AddBookingsView extends javax.swing.JPanel {
                         hallString += " Price: " + hallResult.getString("price");
                     }
                     hallSearchResultLabel.setText(hallString);
-
-                }else{
+                    
+                } else {
                     JOptionPane.showMessageDialog(this, "No Hall Selected");
                 }
             }
@@ -241,6 +258,7 @@ public class AddBookingsView extends javax.swing.JPanel {
     private javax.swing.JCheckBox ThursdayChk;
     private javax.swing.JCheckBox TuesdayChk;
     private javax.swing.JCheckBox WednesdayChk;
+    private javax.swing.JCheckBox allDayChk;
     private javax.swing.JTextField bookedByTxt;
     private javax.swing.JCheckBox confirmedChk;
     private com.github.lgooddatepicker.components.DatePicker endDatePicker;
@@ -261,30 +279,50 @@ public class AddBookingsView extends javax.swing.JPanel {
         LocalDate startDate = startDatePicker.getDate();
         LocalDate endDate = endDatePicker.getDate();
         String bitConf = getBitConf();
-        if(hallId != -1){
-            if(ValidateBooking.isDateConfigValid(startDate, endDate, bitConf)){
-                String bookedBy = bookedByTxt.getText();
-                int confirmed = confirmedChk.isSelected() == true ? 1 : 0;
-                Object[] values = {hallId,bookedBy,confirmed,Converters.fromLocalDatetoString(startDate),Converters.fromLocalDatetoString(endDate),bitConf};
-                mb.create(values, mb.columnNames);
+        if (hallId != -1) {
+            if (ValidateBooking.isDateConfigValid(startDate, endDate, bitConf)) {
+                if (ValidateBooking.isBookingDateFree(startDate, endDate, bitConf)) {
+                    String bookedBy = bookedByTxt.getText();
+                    int confirmed = confirmedChk.isSelected() == true ? 1 : 0;
+                    Object[] values = {hallId, bookedBy, confirmed, Converters.fromLocalDatetoString(startDate), Converters.fromLocalDatetoString(endDate), bitConf};
+                    mb.create(values, mb.columnNames);
+                } else {
+                    JOptionPane.showMessageDialog(this, "There is already a confirmed booking on those days");
+                }
+                
                 JOptionPane.showMessageDialog(null, "Booking Made successfully");
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Selected Dates do not match");
             }
-        }else{
-            JOptionPane.showMessageDialog(null, "Select a hall to book");
+        } else {
+            ExceptionMessageDialog.show(this, "Please select a hall to book");
         }
     }
-
+    
     private String getBitConf() {
-        String conf = MondayChk.isSelected() ? "1":"0";
-        conf += TuesdayChk.isSelected() ? "1":"0";
-        conf += WednesdayChk.isSelected() ? "1":"0";
-        conf += ThursdayChk.isSelected() ? "1":"0";
-        conf += FridayChk.isSelected() ? "1":"0";
-        conf += SaturdayChk.isSelected() ? "1":"0";
-        conf += SundayChk.isSelected() ? "1":"0";
-        System.out.println("Bit configuration"+conf);
+        if(allDayChk.isSelected()){
+            return "1111111";
+        }
+        String conf = MondayChk.isSelected() ? "1" : "0";
+        conf += TuesdayChk.isSelected() ? "1" : "0";
+        conf += WednesdayChk.isSelected() ? "1" : "0";
+        conf += ThursdayChk.isSelected() ? "1" : "0";
+        conf += FridayChk.isSelected() ? "1" : "0";
+        conf += SaturdayChk.isSelected() ? "1" : "0";
+        conf += SundayChk.isSelected() ? "1" : "0";
+        System.out.println("Bit configuration" + conf);
         return conf;
+    }
+    private class DateChangeListenerChk implements DateChangeListener {
+
+        private String tag;
+        public DateChangeListenerChk(String tag) {
+            this.tag = tag;
+        }
+
+        @Override
+        public void dateChanged(DateChangeEvent dce) {
+            
+        }
     }
 }

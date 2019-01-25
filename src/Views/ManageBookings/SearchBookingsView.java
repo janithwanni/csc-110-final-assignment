@@ -73,6 +73,7 @@ public class SearchBookingsView extends javax.swing.JPanel {
         endDateSelectedChk = new javax.swing.JCheckBox();
         dowSelectedChk = new javax.swing.JCheckBox();
         jCheckBox6 = new javax.swing.JCheckBox();
+        jCheckBox1 = new javax.swing.JCheckBox();
 
         jLabel1.setText("Search Halls");
 
@@ -133,7 +134,7 @@ public class SearchBookingsView extends javax.swing.JPanel {
             }
         });
 
-        jLabel6.setText("Confirm right away");
+        jLabel6.setText("Confirmed");
 
         confirmedChk.setText("Confirm");
         confirmedChk.addActionListener(new java.awt.event.ActionListener() {
@@ -177,61 +178,65 @@ public class SearchBookingsView extends javax.swing.JPanel {
 
         jCheckBox6.setEnabled(false);
 
+        jCheckBox1.setText("All day");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(88, 88, 88)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(hallSelectedChk)
-                    .addComponent(bookedBySelectedChk)
-                    .addComponent(startDateSelectedChk)
-                    .addComponent(endDateSelectedChk)
-                    .addComponent(dowSelectedChk)
-                    .addComponent(jCheckBox6))
-                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel7))
-                        .addGap(86, 86, 86)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(endDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(startDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bookedByTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(162, 162, 162))
+                        .addComponent(jCheckBox6)
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(101, 101, 101))
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(hallSelectedChk)
+                            .addComponent(bookedBySelectedChk)
+                            .addComponent(startDateSelectedChk)
+                            .addComponent(endDateSelectedChk)
+                            .addComponent(dowSelectedChk))
+                        .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel7))
+                                .addGap(86, 86, 86)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(endDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(startDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(bookedByTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(162, 162, 162))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel5)
                                     .addComponent(jLabel1)
                                     .addComponent(jLabel2))
-                                .addGap(0, 14, Short.MAX_VALUE))
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(searchHalls)
-                                .addComponent(hallSearchResultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(confirmedChk)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(WednesdayChk)
-                                        .addComponent(MondayChk, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(TuesdayChk, javax.swing.GroupLayout.Alignment.LEADING))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(FridayChk)
-                                        .addComponent(ThursdayChk)
-                                        .addComponent(SaturdayChk)))))
-                        .addGap(18, 18, 18)
-                        .addComponent(SundayChk)
-                        .addGap(92, 92, 92))))
+                                .addGap(18, 32, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(searchHalls)
+                                        .addComponent(hallSearchResultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(WednesdayChk)
+                                            .addComponent(MondayChk, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(TuesdayChk, javax.swing.GroupLayout.Alignment.LEADING))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(FridayChk)
+                                            .addComponent(ThursdayChk)
+                                            .addComponent(SaturdayChk)))
+                                    .addComponent(jCheckBox1)
+                                    .addComponent(confirmedChk))
+                                .addGap(18, 18, 18)
+                                .addComponent(SundayChk)
+                                .addGap(92, 92, 92))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -280,13 +285,15 @@ public class SearchBookingsView extends javax.swing.JPanel {
                             .addComponent(WednesdayChk)
                             .addComponent(SaturdayChk)))
                     .addComponent(dowSelectedChk))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jCheckBox1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6)
                         .addComponent(confirmedChk))
                     .addComponent(jCheckBox6))
-                .addGap(133, 133, 133))
+                .addGap(109, 109, 109))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -323,7 +330,6 @@ public class SearchBookingsView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_searchHallsActionPerformed
 
-    
     private void bookedByTxtKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bookedByTxtKeyReleased
         // TODO add your handling code here:
         bookedBySelectedChk.setSelected(!bookedByTxt.getText().equals(""));
@@ -360,6 +366,7 @@ public class SearchBookingsView extends javax.swing.JPanel {
     private javax.swing.JCheckBox endDateSelectedChk;
     private javax.swing.JLabel hallSearchResultLabel;
     private javax.swing.JCheckBox hallSelectedChk;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

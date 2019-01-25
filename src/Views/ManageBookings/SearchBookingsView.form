@@ -16,70 +16,72 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="hallSelectedChk" min="-2" max="-2" attributes="0"/>
-                  <Component id="bookedBySelectedChk" min="-2" max="-2" attributes="0"/>
-                  <Component id="startDateSelectedChk" min="-2" max="-2" attributes="0"/>
-                  <Component id="endDateSelectedChk" min="-2" max="-2" attributes="0"/>
-                  <Component id="dowSelectedChk" min="-2" max="-2" attributes="0"/>
-                  <Component id="jCheckBox6" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="endDatePicker" min="-2" max="-2" attributes="0"/>
-                          <Component id="startDatePicker" min="-2" max="-2" attributes="0"/>
-                          <Component id="bookedByTxt" min="-2" pref="159" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="162" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jCheckBox6" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                      <Component id="jLabel6" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="hallSelectedChk" min="-2" max="-2" attributes="0"/>
+                          <Component id="bookedBySelectedChk" min="-2" max="-2" attributes="0"/>
+                          <Component id="startDateSelectedChk" min="-2" max="-2" attributes="0"/>
+                          <Component id="endDateSelectedChk" min="-2" max="-2" attributes="0"/>
+                          <Component id="dowSelectedChk" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="endDatePicker" min="-2" max="-2" attributes="0"/>
+                                  <Component id="startDatePicker" min="-2" max="-2" attributes="0"/>
+                                  <Component id="bookedByTxt" min="-2" pref="159" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="162" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="0" pref="14" max="32767" attributes="0"/>
-                          </Group>
-                          <Component id="jLabel6" alignment="1" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                              <Component id="searchHalls" min="-2" max="-2" attributes="0"/>
-                              <Component id="hallSearchResultLabel" min="-2" pref="206" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                              <Component id="confirmedChk" min="-2" max="-2" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="WednesdayChk" min="-2" max="-2" attributes="0"/>
-                                      <Component id="MondayChk" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="TuesdayChk" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" pref="32" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                      <Component id="searchHalls" min="-2" max="-2" attributes="0"/>
+                                      <Component id="hallSearchResultLabel" min="-2" pref="206" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="FridayChk" min="-2" max="-2" attributes="0"/>
-                                      <Component id="ThursdayChk" min="-2" max="-2" attributes="0"/>
-                                      <Component id="SaturdayChk" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Component id="WednesdayChk" min="-2" max="-2" attributes="0"/>
+                                          <Component id="MondayChk" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="TuesdayChk" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="FridayChk" min="-2" max="-2" attributes="0"/>
+                                          <Component id="ThursdayChk" min="-2" max="-2" attributes="0"/>
+                                          <Component id="SaturdayChk" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
+                                  <Component id="jCheckBox1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="confirmedChk" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="SundayChk" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="SundayChk" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -145,15 +147,17 @@
                   </Group>
                   <Component id="dowSelectedChk" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="30" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="13" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" groupAlignment="3" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="confirmedChk" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jCheckBox6" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="133" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="109" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -242,7 +246,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Confirm right away"/>
+        <Property name="text" type="java.lang.String" value="Confirmed"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="confirmedChk">
@@ -320,6 +324,11 @@
     <Component class="javax.swing.JCheckBox" name="jCheckBox6">
       <Properties>
         <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="All day"/>
       </Properties>
     </Component>
   </SubComponents>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -20,13 +20,21 @@
               <EmptySpace min="-2" pref="172" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jLabel6" alignment="1" min="-2" pref="114" max="-2" attributes="0"/>
-                          <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace pref="52" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="jLabel6" min="-2" pref="129" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace pref="52" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" alignment="1" groupAlignment="0" attributes="0">
                               <Component id="searchHalls" min="-2" max="-2" attributes="0"/>
@@ -47,6 +55,7 @@
                                       <Component id="SaturdayChk" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
+                              <Component id="allDayChk" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -107,16 +116,18 @@
                   <Component id="SundayChk" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="TuesdayChk" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="FridayChk" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="TuesdayChk" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="WednesdayChk" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="SaturdayChk" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="30" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="allDayChk" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="confirmedChk" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -214,11 +225,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Pick Start Date"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="startDatePicker.addDateChangeListener(new DateChangeListenerChk(&quot;START&quot;));&#xa;endDatePicker.addDateChangeListener(new DateChangeListenerChk(&quot;END&quot;));&#xa;"/>
+      </AuxValues>
     </Component>
     <Component class="com.github.lgooddatepicker.components.DatePicker" name="endDatePicker">
       <Properties>
         <Property name="text" type="java.lang.String" value="Pick End Date"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="startDatePicker.addDateChangeListener(new DateChangeListenerChk(&quot;START&quot;));&#xa;endDatePicker.addDateChangeListener(new DateChangeListenerChk(&quot;END&quot;));&#xa;"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
@@ -226,6 +243,11 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="bookedByTxt">
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="allDayChk">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="All-day"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

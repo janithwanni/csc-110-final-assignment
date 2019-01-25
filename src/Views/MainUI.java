@@ -73,8 +73,8 @@ public class MainUI extends javax.swing.JFrame {
         addBookingsBtn = new javax.swing.JButton();
         searchBookingsBtn = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        deleteBtn = new javax.swing.JButton();
+        confirmBtn = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jButton9 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -184,9 +184,19 @@ public class MainUI extends javax.swing.JFrame {
 
         jButton7.setText("Update Booking");
 
-        jButton8.setText("Confirm Booking");
+        deleteBtn.setText("Delete booking");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Confirm");
+        confirmBtn.setText("Confirm");
+        confirmBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -200,11 +210,11 @@ public class MainUI extends javax.swing.JFrame {
                         .addGap(110, 110, 110)
                         .addComponent(searchBookingsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(46, 46, 46)
-                        .addComponent(jButton1)
+                        .addComponent(confirmBtn)
                         .addGap(46, 46, 46)
                         .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
-                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2))
                 .addContainerGap())
         );
@@ -217,8 +227,8 @@ public class MainUI extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(addBookingsBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
                     .addComponent(searchBookingsBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(confirmBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(22, 22, 22))
         );
@@ -476,13 +486,31 @@ public class MainUI extends javax.swing.JFrame {
         if(result == JOptionPane.OK_OPTION){
             try {
                 ResultSet searchResults = sbv.searchBookings();
-                //bookingTable.setModel(TableModelBuilder.build(searchResults));
+                bookingTable.setModel(TableModelBuilder.build(searchResults));
             } catch (Exception ex) {
                 Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
     }//GEN-LAST:event_searchBookingsBtnActionPerformed
+
+    private void confirmBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmBtnActionPerformed
+        // TODO add your handling code here:
+        String bookingid = bookingTable.getValueAt(bookingTable.getSelectedRow(),0).toString();
+        int confirmed = Integer.parseInt(bookingTable.getValueAt(bookingTable.getSelectedRow(),3).toString());
+        Object[] values = {confirmed == 1 ? 0:1};
+        String[] columnNames = {"confirmed"};
+        mb.update(values, columnNames, "bookingid = "+bookingid);
+    }//GEN-LAST:event_confirmBtnActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        // TODO add your handling code here:
+        String bookingid = bookingTable.getValueAt(bookingTable.getSelectedRow(), 0).toString();
+        int result = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete the selected booking");
+        if(result == JOptionPane.OK_OPTION){
+            mb.delete("bookingid = "+bookingid);
+        }
+    }//GEN-LAST:event_deleteBtnActionPerformed
 
     private TableModel getHallsTableModel() {
         try {
@@ -558,14 +586,14 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JButton addFacilityBtn;
     private javax.swing.JButton addHallBtn;
     private javax.swing.JTable bookingTable;
+    private javax.swing.JButton confirmBtn;
+    private javax.swing.JButton deleteBtn;
     private javax.swing.JTable facilitiesTable;
     private javax.swing.JTable hallTable;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

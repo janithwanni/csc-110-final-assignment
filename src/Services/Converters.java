@@ -24,4 +24,9 @@ public class Converters {
     public static String fromLocalDatetoString(LocalDate ld) {
         return ld.format(DateTimeFormatter.ISO_LOCAL_DATE);
     }
+    
+    public static LocalDate fromDatetoLocalDate(Date d){
+        LocalDate l = null;
+        return l;
+    }
 }
