@@ -34,11 +34,6 @@ public class SearchBookingsView extends javax.swing.JPanel {
     public SearchBookingsView() {
         initComponents();
     }
-    
-    public SearchBookingsView(int bookingId){
-        this();
-        //ADD CODE TO INIT COMPONENTS
-    }
 
     private ManageHalls mh = new ManageHalls();
     private ManageBookings mb = new ManageBookings();
@@ -407,24 +402,30 @@ public class SearchBookingsView extends javax.swing.JPanel {
     public ResultSet searchBookings(){
         String criteria = "";
         if(hallSelectedChk.isSelected()){
-            
+            criteria += "hallid = "+hallId + " or ";
         }
         if(bookedBySelectedChk.isSelected()){
-            
+            criteria += "bookedby like '%"+bookedByTxt.getText()+"%' or ";
         }
         if(startDateSelectedChk.isSelected()){
-            
+            String startDateString = "";
+            criteria += "startdate = "+startDateString+" or ";
         }
         if(endDateSelectedChk.isSelected()){
-            
+            String endDateString = "";
+            criteria += "enddate = "+endDateString +" or ";
         }
         if(dowSelectedChk.isSelected()){
-            
+            String bitc = getBitConf();
+            criteria += "dayconfig = "+bitc+" or ";
         }
         if(confirmedSelectedChk.isSelected()){
-            
+            criteria += "confirmed = "+(confirmedChk.isSelected()?"1":"0")+" or ";
         }
-        return mb.read(criteria);
+        //return mb.read(criteria);
+        System.out.println(criteria);
+        ResultSet rs = mb.read(criteria);
+        return null;
     }
 
     private String getBitConf() {
