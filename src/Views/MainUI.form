@@ -90,13 +90,13 @@
                           <Group type="102" attributes="0">
                               <Component id="addHallBtn" min="-2" pref="120" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
-                              <Component id="jButton2" min="-2" pref="103" max="-2" attributes="0"/>
+                              <Component id="searchHallBtn" min="-2" pref="103" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="refreshBtn" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
-                              <Component id="jButton3" min="-2" pref="121" max="-2" attributes="0"/>
+                              <Component id="updateHallBtn" min="-2" pref="121" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
-                              <Component id="jButton4" min="-2" pref="121" max="-2" attributes="0"/>
+                              <Component id="deleteHallBtn" min="-2" pref="121" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane1" min="-2" pref="871" max="-2" attributes="0"/>
                       </Group>
@@ -112,10 +112,10 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="addHallBtn" pref="53" max="32767" attributes="0"/>
-                          <Component id="jButton2" max="32767" attributes="0"/>
-                          <Component id="jButton4" alignment="0" max="32767" attributes="0"/>
+                          <Component id="searchHallBtn" max="32767" attributes="0"/>
+                          <Component id="deleteHallBtn" alignment="0" max="32767" attributes="0"/>
                           <Component id="refreshBtn" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButton3" alignment="0" max="32767" attributes="0"/>
+                          <Component id="updateHallBtn" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                   </Group>
@@ -147,28 +147,28 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addHallBtnActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton2">
+            <Component class="javax.swing.JButton" name="searchHallBtn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Search Hall"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchHallBtnActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton3">
+            <Component class="javax.swing.JButton" name="updateHallBtn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Update Info"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateHallBtnActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton4">
+            <Component class="javax.swing.JButton" name="deleteHallBtn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Delete Hall"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteHallBtnActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="refreshBtn">
@@ -203,7 +203,7 @@
                               <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                               <Component id="confirmBtn" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                              <Component id="jButton7" min="-2" pref="121" max="-2" attributes="0"/>
+                              <Component id="updateBookingBtn" min="-2" pref="121" max="-2" attributes="0"/>
                               <EmptySpace pref="87" max="32767" attributes="0"/>
                               <Component id="deleteBtn" min="-2" pref="121" max="-2" attributes="0"/>
                           </Group>
@@ -224,7 +224,7 @@
                           <Component id="searchBookingsBtn" alignment="0" max="32767" attributes="0"/>
                           <Component id="deleteBtn" alignment="0" max="32767" attributes="0"/>
                           <Component id="confirmBtn" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButton7" alignment="0" max="32767" attributes="0"/>
+                          <Component id="updateBookingBtn" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                   </Group>
@@ -264,10 +264,13 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchBookingsBtnActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton7">
+            <Component class="javax.swing.JButton" name="updateBookingBtn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Update Booking"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateBookingBtnActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="deleteBtn">
               <Properties>

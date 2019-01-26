@@ -34,6 +34,11 @@ public class SearchBookingsView extends javax.swing.JPanel {
     public SearchBookingsView() {
         initComponents();
     }
+    
+    public SearchBookingsView(int bookingId){
+        this();
+        //ADD CODE TO INIT COMPONENTS
+    }
 
     private ManageHalls mh = new ManageHalls();
     private ManageBookings mb = new ManageBookings();
@@ -72,8 +77,8 @@ public class SearchBookingsView extends javax.swing.JPanel {
         startDateSelectedChk = new javax.swing.JCheckBox();
         endDateSelectedChk = new javax.swing.JCheckBox();
         dowSelectedChk = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        confirmedSelectedChk = new javax.swing.JCheckBox();
+        allDayChk = new javax.swing.JCheckBox();
 
         jLabel1.setText("Search Halls");
 
@@ -176,9 +181,9 @@ public class SearchBookingsView extends javax.swing.JPanel {
 
         dowSelectedChk.setEnabled(false);
 
-        jCheckBox6.setEnabled(false);
+        confirmedSelectedChk.setEnabled(false);
 
-        jCheckBox1.setText("All day");
+        allDayChk.setText("All day");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -188,7 +193,7 @@ public class SearchBookingsView extends javax.swing.JPanel {
                 .addGap(88, 88, 88)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jCheckBox6)
+                        .addComponent(confirmedSelectedChk)
                         .addGap(26, 26, 26)
                         .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(101, 101, 101))
@@ -232,7 +237,7 @@ public class SearchBookingsView extends javax.swing.JPanel {
                                             .addComponent(FridayChk)
                                             .addComponent(ThursdayChk)
                                             .addComponent(SaturdayChk)))
-                                    .addComponent(jCheckBox1)
+                                    .addComponent(allDayChk)
                                     .addComponent(confirmedChk))
                                 .addGap(18, 18, 18)
                                 .addComponent(SundayChk)
@@ -286,13 +291,13 @@ public class SearchBookingsView extends javax.swing.JPanel {
                             .addComponent(SaturdayChk)))
                     .addComponent(dowSelectedChk))
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox1)
+                .addComponent(allDayChk)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6)
                         .addComponent(confirmedChk))
-                    .addComponent(jCheckBox6))
+                    .addComponent(confirmedSelectedChk))
                 .addGap(109, 109, 109))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -340,13 +345,13 @@ public class SearchBookingsView extends javax.swing.JPanel {
         dowSelectedChk.setSelected(
                 MondayChk.isSelected() || TuesdayChk.isSelected() || WednesdayChk.isSelected() || 
                 ThursdayChk.isSelected() || FridayChk.isSelected() || SaturdayChk.isSelected() || 
-                SundayChk.isSelected()
+                SundayChk.isSelected() || allDayChk.isSelected()
         );
     }//GEN-LAST:event_DayOfWeekChkActionPerformed
 
     private void confirmedChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmedChkActionPerformed
         // TODO add your handling code here:
-        confirmedChk.setSelected(true);
+        confirmedSelectedChk.setSelected(true);
     }//GEN-LAST:event_confirmedChkActionPerformed
 
 
@@ -358,16 +363,16 @@ public class SearchBookingsView extends javax.swing.JPanel {
     private javax.swing.JCheckBox ThursdayChk;
     private javax.swing.JCheckBox TuesdayChk;
     private javax.swing.JCheckBox WednesdayChk;
+    private javax.swing.JCheckBox allDayChk;
     private javax.swing.JCheckBox bookedBySelectedChk;
     private javax.swing.JTextField bookedByTxt;
     private javax.swing.JCheckBox confirmedChk;
+    private javax.swing.JCheckBox confirmedSelectedChk;
     private javax.swing.JCheckBox dowSelectedChk;
     private com.github.lgooddatepicker.components.DatePicker endDatePicker;
     private javax.swing.JCheckBox endDateSelectedChk;
     private javax.swing.JLabel hallSearchResultLabel;
     private javax.swing.JCheckBox hallSelectedChk;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -401,10 +406,31 @@ public class SearchBookingsView extends javax.swing.JPanel {
     }
     public ResultSet searchBookings(){
         String criteria = "";
+        if(hallSelectedChk.isSelected()){
+            
+        }
+        if(bookedBySelectedChk.isSelected()){
+            
+        }
+        if(startDateSelectedChk.isSelected()){
+            
+        }
+        if(endDateSelectedChk.isSelected()){
+            
+        }
+        if(dowSelectedChk.isSelected()){
+            
+        }
+        if(confirmedSelectedChk.isSelected()){
+            
+        }
         return mb.read(criteria);
     }
 
     private String getBitConf() {
+        if(allDayChk.isSelected()){
+            return "1111111";
+        }
         String conf = MondayChk.isSelected() ? "1":"0";
         conf += TuesdayChk.isSelected() ? "1":"0";
         conf += WednesdayChk.isSelected() ? "1":"0";
@@ -435,7 +461,7 @@ public class SearchBookingsView extends javax.swing.JPanel {
                 if(dce.getNewDate().toString().equals("")){
                     SearchBookingsView.this.endDateSelectedChk.setSelected(false);
                 }else{
-                    SearchBookingsView.this.endDateSelectedChk.setSelected(false);
+                    SearchBookingsView.this.endDateSelectedChk.setSelected(true);
                 }
             }
         }

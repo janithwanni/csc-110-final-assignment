@@ -13,6 +13,7 @@ import Services.ManageOperations.ManageHalls;
 import Services.TableModelBuilder;
 import Views.ManageBookings.AddBookingsView;
 import Views.ManageBookings.SearchBookingsView;
+import Views.ManageBookings.UpdateBookingsView;
 import Views.ManageHalls.AddHallsView;
 import Views.ManageHalls.SearchHallsView;
 import Views.ManageHalls.UpdateHallsView;
@@ -63,16 +64,16 @@ public class MainUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         hallTable = new javax.swing.JTable();
         addHallBtn = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        searchHallBtn = new javax.swing.JButton();
+        updateHallBtn = new javax.swing.JButton();
+        deleteHallBtn = new javax.swing.JButton();
         refreshBtn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         bookingTable = new javax.swing.JTable();
         addBookingsBtn = new javax.swing.JButton();
         searchBookingsBtn = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        updateBookingBtn = new javax.swing.JButton();
         deleteBtn = new javax.swing.JButton();
         confirmBtn = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -100,24 +101,24 @@ public class MainUI extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Search Hall");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        searchHallBtn.setText("Search Hall");
+        searchHallBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                searchHallBtnActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Update Info");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        updateHallBtn.setText("Update Info");
+        updateHallBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                updateHallBtnActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Delete Hall");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        deleteHallBtn.setText("Delete Hall");
+        deleteHallBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                deleteHallBtnActionPerformed(evt);
             }
         });
 
@@ -138,13 +139,13 @@ public class MainUI extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(addHallBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(110, 110, 110)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(searchHallBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(refreshBtn)
                         .addGap(63, 63, 63)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(updateHallBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(87, 87, 87)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(deleteHallBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 871, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -156,10 +157,10 @@ public class MainUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(addHallBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(searchHallBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deleteHallBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(refreshBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(updateHallBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(21, 21, 21))
         );
 
@@ -182,7 +183,12 @@ public class MainUI extends javax.swing.JFrame {
             }
         });
 
-        jButton7.setText("Update Booking");
+        updateBookingBtn.setText("Update Booking");
+        updateBookingBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateBookingBtnActionPerformed(evt);
+            }
+        });
 
         deleteBtn.setText("Delete booking");
         deleteBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -212,7 +218,7 @@ public class MainUI extends javax.swing.JFrame {
                         .addGap(46, 46, 46)
                         .addComponent(confirmBtn)
                         .addGap(46, 46, 46)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(updateBookingBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
                         .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2))
@@ -229,7 +235,7 @@ public class MainUI extends javax.swing.JFrame {
                     .addComponent(searchBookingsBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(deleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(confirmBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(updateBookingBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(22, 22, 22))
         );
 
@@ -406,7 +412,7 @@ public class MainUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_refreshBtnActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void searchHallBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchHallBtnActionPerformed
         // TODO add your handling code here:
         SearchHallsView shv = new SearchHallsView();
         int result = JOptionPane.showConfirmDialog(this, shv, "Search Halls", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -419,9 +425,9 @@ public class MainUI extends javax.swing.JFrame {
                 ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
             }
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_searchHallBtnActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void updateHallBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateHallBtnActionPerformed
         // TODO add your handling code here:
         if (hallTable.getSelectedRow() != -1) {
             try {
@@ -439,9 +445,9 @@ public class MainUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Select a row from the table to update");
         }
 
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_updateHallBtnActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void deleteHallBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteHallBtnActionPerformed
         // TODO add your handling code here:
         //delete halls
         if (hallTable.getSelectedRow() != -1) {
@@ -461,7 +467,7 @@ public class MainUI extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Select a row from the table to delete");
         }
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_deleteHallBtnActionPerformed
 
     private void addBookingsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBookingsBtnActionPerformed
         // TODO add your handling code here:
@@ -496,21 +502,37 @@ public class MainUI extends javax.swing.JFrame {
 
     private void confirmBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmBtnActionPerformed
         // TODO add your handling code here:
-        String bookingid = bookingTable.getValueAt(bookingTable.getSelectedRow(),0).toString();
-        int confirmed = Integer.parseInt(bookingTable.getValueAt(bookingTable.getSelectedRow(),3).toString());
-        Object[] values = {confirmed == 1 ? 0:1};
-        String[] columnNames = {"confirmed"};
-        mb.update(values, columnNames, "bookingid = "+bookingid);
+        if(bookingTable.getSelectedRow() != -1){
+            String bookingid = bookingTable.getValueAt(bookingTable.getSelectedRow(),0).toString();
+            int confirmed = Integer.parseInt(bookingTable.getValueAt(bookingTable.getSelectedRow(),3).toString());
+            Object[] values = {confirmed == 1 ? 0:1};
+            String[] columnNames = {"confirmed"};
+            mb.update(values, columnNames, "bookingid = "+bookingid);
+        }
     }//GEN-LAST:event_confirmBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
-        String bookingid = bookingTable.getValueAt(bookingTable.getSelectedRow(), 0).toString();
-        int result = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete the selected booking");
-        if(result == JOptionPane.OK_OPTION){
-            mb.delete("bookingid = "+bookingid);
+        if(bookingTable.getSelectedRow() == -1){
+            String bookingid = bookingTable.getValueAt(bookingTable.getSelectedRow(), 0).toString();
+            int result = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete the selected booking");
+            if(result == JOptionPane.OK_OPTION){
+                mb.delete("bookingid = "+bookingid);
+            }
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void updateBookingBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBookingBtnActionPerformed
+        // TODO add your handling code here:
+        UpdateBookingsView ubv = new UpdateBookingsView();
+        if(bookingTable.getSelectedRow() == -1){
+        String bookingid = bookingTable.getValueAt(bookingTable.getSelectedRow(),0).toString();
+        int result = JOptionPane.showConfirmDialog(this,ubv,"Update Bookings",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
+            if(result == JOptionPane.OK_OPTION){
+                
+            }
+        }
+    }//GEN-LAST:event_updateBookingBtnActionPerformed
 
     private TableModel getHallsTableModel() {
         try {
@@ -588,12 +610,9 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JTable bookingTable;
     private javax.swing.JButton confirmBtn;
     private javax.swing.JButton deleteBtn;
+    private javax.swing.JButton deleteHallBtn;
     private javax.swing.JTable facilitiesTable;
     private javax.swing.JTable hallTable;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -606,8 +625,11 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JButton refreshBtnFacility;
     private javax.swing.JButton searchBookingsBtn;
     private javax.swing.JButton searchFacility;
+    private javax.swing.JButton searchHallBtn;
     private javax.swing.JTabbedPane tabView;
+    private javax.swing.JButton updateBookingBtn;
     private javax.swing.JButton updateFacilitiesBtn;
+    private javax.swing.JButton updateHallBtn;
     private javax.swing.JLabel welcomeLabel;
     // End of variables declaration//GEN-END:variables
 
