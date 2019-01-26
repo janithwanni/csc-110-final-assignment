@@ -422,10 +422,11 @@ public class SearchBookingsView extends javax.swing.JPanel {
         if(confirmedSelectedChk.isSelected()){
             criteria += "confirmed = "+(confirmedChk.isSelected()?"1":"0")+" or ";
         }
+        criteria = criteria.substring(0, criteria.length() - 3);
         //return mb.read(criteria);
         System.out.println(criteria);
         ResultSet rs = mb.read(criteria);
-        return null;
+        return rs;
     }
 
     private String getBitConf() {
