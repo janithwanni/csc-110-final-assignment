@@ -82,7 +82,7 @@
                                                           <Component id="SaturdayChk" alignment="0" min="-2" max="-2" attributes="0"/>
                                                       </Group>
                                                   </Group>
-                                                  <Component id="jCheckBox1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="allDayChk" alignment="0" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <EmptySpace type="separate" max="-2" attributes="0"/>
                                               <Component id="SundayChk" min="-2" max="-2" attributes="0"/>
@@ -163,7 +163,7 @@
                           <Component id="SaturdayChk" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+                      <Component id="allDayChk" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -335,10 +335,13 @@
         <Property name="text" type="java.lang.String" value="Day of week"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+    <Component class="javax.swing.JCheckBox" name="allDayChk">
       <Properties>
         <Property name="text" type="java.lang.String" value="All day"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="allDayChkActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JCheckBox" name="MondayChk">
       <Properties>

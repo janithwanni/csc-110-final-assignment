@@ -407,12 +407,12 @@ public class SearchBookingsView extends javax.swing.JPanel {
         if(bookedBySelectedChk.isSelected()){
             criteria += "bookedby like '%"+bookedByTxt.getText()+"%' or ";
         }
-        if(startDateSelectedChk.isSelected()){
-            String startDateString = "";
+        if(startDateSelectedChk.isSelected()){        
+            String startDateString = startDatePicker.getDateStringOrEmptyString()+"";
             criteria += "startdate = "+startDateString+" or ";
         }
         if(endDateSelectedChk.isSelected()){
-            String endDateString = "";
+            String endDateString = endDatePicker.getDateStringOrEmptyString()+"";
             criteria += "enddate = "+endDateString +" or ";
         }
         if(dowSelectedChk.isSelected()){

@@ -5,6 +5,7 @@
  */
 package Views.ManageBookings;
 
+import Services.Converters;
 import Services.ExceptionMessageDialog;
 import Services.ManageOperations.ManageBookings;
 import Services.ManageOperations.ManageHalls;
@@ -12,8 +13,10 @@ import Views.ManageHalls.SearchHallsView;
 import Views.ManageHalls.SelectHallTableView;
 import com.github.lgooddatepicker.optionalusertools.DateChangeListener;
 import com.github.lgooddatepicker.zinternaltools.DateChangeEvent;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javafx.util.converter.LocalDateStringConverter;
 import javax.swing.JOptionPane;
 
 /**
@@ -29,8 +32,37 @@ public class UpdateBookingsView extends javax.swing.JPanel {
         initComponents();
     }
 
+    public UpdateBookingsView(int bookingID) throws SQLException{
+        this();
+        this.bookingID = bookingID;
+        ResultSet bookingResults = mb.read("bookingid = "+this.bookingID);
+        while(bookingResults.next()){
+            this.hallId = Integer.parseInt(bookingResults.getString("hallid"));
+            ResultSet hallResults = mh.read("hallid = "+bookingResults.getString("hallid"));
+            String hallid = "";
+            String hallString = "";
+            bookedByTxt.setText(bookingResults.getString("bookedby"));
+            Date startDate = bookingResults.getDate("startdate");
+            Date endDate = bookingResults.getDate("enddate");
+            startDatePicker.setDate(Converters.fromDatetoLocalDate(startDate));
+            endDatePicker.setDate(Converters.fromDatetoLocalDate(endDate));
+            startDateSelectedChk.setSelected(false);
+            endDateSelectedChk.setSelected(false);
+            setBitConf(bookingResults.getString("dayconfig"));
+            //startDatePicker.setDate(Conver);
+            while(hallResults.next()){
+                hallid = hallResults.getString("hallid");
+                hallString = "Name: " + hallResults.getString("name");
+                hallString += " Capacity: " + hallResults.getString("capacity");
+                hallString += " Price: " + hallResults.getString("price");
+            }
+            hallSearchResultLabel.setText(hallString);
+            
+        }
+    }
     private ManageHalls mh = new ManageHalls();
     private ManageBookings mb = new ManageBookings();
+    private int bookingID = -1;
     private int hallId = -1;
     /**
      * This method is called from within the constructor to initialize the form.
@@ -66,7 +98,7 @@ public class UpdateBookingsView extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jCheckBox6 = new javax.swing.JCheckBox();
         jLabel5 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        allDayChk = new javax.swing.JCheckBox();
         MondayChk = new javax.swing.JCheckBox();
 
         TuesdayChk.setText("Tuesday");
@@ -165,7 +197,12 @@ public class UpdateBookingsView extends javax.swing.JPanel {
 
         jLabel5.setText("Day of week");
 
-        jCheckBox1.setText("All day");
+        allDayChk.setText("All day");
+        allDayChk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                allDayChkActionPerformed(evt);
+            }
+        });
 
         MondayChk.setText("Monday");
         MondayChk.addActionListener(new java.awt.event.ActionListener() {
@@ -234,7 +271,7 @@ public class UpdateBookingsView extends javax.swing.JPanel {
                                                             .addComponent(FridayChk)
                                                             .addComponent(ThursdayChk)
                                                             .addComponent(SaturdayChk)))
-                                                    .addComponent(jCheckBox1))
+                                                    .addComponent(allDayChk))
                                                 .addGap(18, 18, 18)
                                                 .addComponent(SundayChk)))
                                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))))
@@ -291,7 +328,7 @@ public class UpdateBookingsView extends javax.swing.JPanel {
                             .addComponent(WednesdayChk)
                             .addComponent(SaturdayChk))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBox1)
+                        .addComponent(allDayChk)
                         .addGap(12, 12, 12)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -304,56 +341,32 @@ public class UpdateBookingsView extends javax.swing.JPanel {
 
     private void TuesdayChkDayOfWeekChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TuesdayChkDayOfWeekChkActionPerformed
         // TODO add your handling code here:
-        dowSelectedChk.setSelected(
-            MondayChk.isSelected() || TuesdayChk.isSelected() || WednesdayChk.isSelected() ||
-            ThursdayChk.isSelected() || FridayChk.isSelected() || SaturdayChk.isSelected() ||
-            SundayChk.isSelected()
-        );
+        setCheckBoxes();
     }//GEN-LAST:event_TuesdayChkDayOfWeekChkActionPerformed
 
     private void WednesdayChkDayOfWeekChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WednesdayChkDayOfWeekChkActionPerformed
         // TODO add your handling code here:
-        dowSelectedChk.setSelected(
-            MondayChk.isSelected() || TuesdayChk.isSelected() || WednesdayChk.isSelected() ||
-            ThursdayChk.isSelected() || FridayChk.isSelected() || SaturdayChk.isSelected() ||
-            SundayChk.isSelected()
-        );
+        setCheckBoxes();
     }//GEN-LAST:event_WednesdayChkDayOfWeekChkActionPerformed
 
     private void FridayChkDayOfWeekChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FridayChkDayOfWeekChkActionPerformed
         // TODO add your handling code here:
-        dowSelectedChk.setSelected(
-            MondayChk.isSelected() || TuesdayChk.isSelected() || WednesdayChk.isSelected() ||
-            ThursdayChk.isSelected() || FridayChk.isSelected() || SaturdayChk.isSelected() ||
-            SundayChk.isSelected()
-        );
+        setCheckBoxes();
     }//GEN-LAST:event_FridayChkDayOfWeekChkActionPerformed
 
     private void SaturdayChkDayOfWeekChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaturdayChkDayOfWeekChkActionPerformed
         // TODO add your handling code here:
-        dowSelectedChk.setSelected(
-            MondayChk.isSelected() || TuesdayChk.isSelected() || WednesdayChk.isSelected() ||
-            ThursdayChk.isSelected() || FridayChk.isSelected() || SaturdayChk.isSelected() ||
-            SundayChk.isSelected()
-        );
+        setCheckBoxes();
     }//GEN-LAST:event_SaturdayChkDayOfWeekChkActionPerformed
 
     private void SundayChkDayOfWeekChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SundayChkDayOfWeekChkActionPerformed
         // TODO add your handling code here:
-        dowSelectedChk.setSelected(
-            MondayChk.isSelected() || TuesdayChk.isSelected() || WednesdayChk.isSelected() ||
-            ThursdayChk.isSelected() || FridayChk.isSelected() || SaturdayChk.isSelected() ||
-            SundayChk.isSelected()
-        );
+        setCheckBoxes();
     }//GEN-LAST:event_SundayChkDayOfWeekChkActionPerformed
 
     private void ThursdayChkDayOfWeekChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ThursdayChkDayOfWeekChkActionPerformed
         // TODO add your handling code here:
-        dowSelectedChk.setSelected(
-            MondayChk.isSelected() || TuesdayChk.isSelected() || WednesdayChk.isSelected() ||
-            ThursdayChk.isSelected() || FridayChk.isSelected() || SaturdayChk.isSelected() ||
-            SundayChk.isSelected()
-        );
+        setCheckBoxes();
     }//GEN-LAST:event_ThursdayChkDayOfWeekChkActionPerformed
 
     private void confirmedChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmedChkActionPerformed
@@ -361,6 +374,31 @@ public class UpdateBookingsView extends javax.swing.JPanel {
         confirmedChk.setSelected(true);
     }//GEN-LAST:event_confirmedChkActionPerformed
 
+    public void updateBookings(){
+        Object[] bookingValueList = new String[mb.columnNames.length];
+        
+        bookingValueList[0] = this.hallId+"";
+        bookingValueList[1] = this.bookedByTxt.getText();
+        bookingValueList[2] = this.startDatePicker.getDateStringOrEmptyString();
+        bookingValueList[3] = this.endDatePicker.getDateStringOrEmptyString();
+        bookingValueList[4] = getBitConf();
+        bookingValueList[5] = this.confirmedChk.isSelected() ? "1":"0";
+        mb.update(bookingValueList, mb.columnNames, "bookingid = "+bookingID);
+    }
+    private String getBitConf() {
+        if(allDayChk.isSelected()){
+            return "1111111";
+        }
+        String conf = MondayChk.isSelected() ? "1":"0";
+        conf += TuesdayChk.isSelected() ? "1":"0";
+        conf += WednesdayChk.isSelected() ? "1":"0";
+        conf += ThursdayChk.isSelected() ? "1":"0";
+        conf += FridayChk.isSelected() ? "1":"0";
+        conf += SaturdayChk.isSelected() ? "1":"0";
+        conf += SundayChk.isSelected() ? "1":"0";
+        System.out.println("Bit configuration"+conf);
+        return conf;
+    }
     private void searchHallsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchHallsActionPerformed
         // TODO add your handling code here:
         //search for halls
@@ -401,12 +439,53 @@ public class UpdateBookingsView extends javax.swing.JPanel {
 
     private void MondayChkDayOfWeekChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MondayChkDayOfWeekChkActionPerformed
         // TODO add your handling code here:
+        setCheckBoxes();
+    }//GEN-LAST:event_MondayChkDayOfWeekChkActionPerformed
+
+    private void allDayChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allDayChkActionPerformed
+        // TODO add your handling code here:
+        setCheckBoxes();
+    }//GEN-LAST:event_allDayChkActionPerformed
+
+    public void setCheckBoxes(){
         dowSelectedChk.setSelected(
             MondayChk.isSelected() || TuesdayChk.isSelected() || WednesdayChk.isSelected() ||
             ThursdayChk.isSelected() || FridayChk.isSelected() || SaturdayChk.isSelected() ||
-            SundayChk.isSelected()
+            SundayChk.isSelected() || allDayChk.isSelected()
         );
-    }//GEN-LAST:event_MondayChkDayOfWeekChkActionPerformed
+    }
+    private void setBitConf(String s) {
+        if(s.equals("1111111")){
+            allDayChk.setSelected(true);
+            
+        }else{
+        for (int i = 0; i < s.length(); i++) {
+            switch(i){
+                case 0:
+                    MondayChk.setSelected((s.charAt(i) == '1'));
+                    break;
+                case 1:
+                    TuesdayChk.setSelected((s.charAt(i) == '1'));
+                    break;
+                case 2:
+                    WednesdayChk.setSelected((s.charAt(i) == '1'));
+                    break;
+                case 3:
+                    ThursdayChk.setSelected((s.charAt(i) == '1'));
+                    break;
+                case 4:
+                    FridayChk.setSelected((s.charAt(i) == '1'));
+                    break;
+                case 5:
+                    SaturdayChk.setSelected((s.charAt(i) == '1'));
+                    break;
+                case 6:
+                    SundayChk.setSelected((s.charAt(i) == '1'));
+                    break;
+            }
+        }
+        }
+    }
 
     private class DateChangeListenerChk implements DateChangeListener {
 
@@ -441,6 +520,7 @@ public class UpdateBookingsView extends javax.swing.JPanel {
     private javax.swing.JCheckBox ThursdayChk;
     private javax.swing.JCheckBox TuesdayChk;
     private javax.swing.JCheckBox WednesdayChk;
+    private javax.swing.JCheckBox allDayChk;
     private javax.swing.JCheckBox bookedBySelectedChk;
     private javax.swing.JTextField bookedByTxt;
     private javax.swing.JCheckBox confirmedChk;
@@ -449,7 +529,6 @@ public class UpdateBookingsView extends javax.swing.JPanel {
     private javax.swing.JCheckBox endDateSelectedChk;
     private javax.swing.JLabel hallSearchResultLabel;
     private javax.swing.JCheckBox hallSelectedChk;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

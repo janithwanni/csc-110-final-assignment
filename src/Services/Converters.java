@@ -6,7 +6,9 @@
 package Services;
 
 import java.text.DateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -26,7 +28,6 @@ public class Converters {
     }
     
     public static LocalDate fromDatetoLocalDate(Date d){
-        LocalDate l = null;
-        return l;
+        return Instant.ofEpochMilli(d.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
     }
 }

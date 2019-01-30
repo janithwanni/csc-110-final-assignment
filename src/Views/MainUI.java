@@ -344,7 +344,7 @@ public class MainUI extends javax.swing.JFrame {
             ahv.createHall();
             JOptionPane.showMessageDialog(this, "Hall creation successful");
             try {
-                hallTable.setModel(TableModelBuilder.build(mh.read("ALL")));
+                refreshHallTable();
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
@@ -404,14 +404,17 @@ public class MainUI extends javax.swing.JFrame {
 
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
         try {
-            // TODO add your handling code here:
-            hallTable.setModel(TableModelBuilder.build(mh.read("ALL")));
+            refreshHallTable();
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
+            ExceptionMessageDialog.show(this, ex.getMessage());
         }
     }//GEN-LAST:event_refreshBtnActionPerformed
 
+    private void refreshHallTable() throws SQLException{
+            // TODO add your handling code here:
+            hallTable.setModel(TableModelBuilder.build(mh.read("ALL")));
+       
+    }
     private void searchHallBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchHallBtnActionPerformed
         // TODO add your handling code here:
         SearchHallsView shv = new SearchHallsView();
@@ -436,6 +439,7 @@ public class MainUI extends javax.swing.JFrame {
                 int result = JOptionPane.showConfirmDialog(this, uhv, "Update Halls", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if (result == JOptionPane.OK_OPTION) {
                     uhv.updateHalls();
+                    hallTable.setModel(TableModelBuilder.build(mh.read("ALL")));
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -477,7 +481,7 @@ public class MainUI extends javax.swing.JFrame {
         if (result == JOptionPane.OK_OPTION) {
             abv.addBooking();
             try {
-                bookingTable.setModel(TableModelBuilder.build(mb.read("ALL")));
+               refreshBookingTable();
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
@@ -492,7 +496,7 @@ public class MainUI extends javax.swing.JFrame {
         if(result == JOptionPane.OK_OPTION){
             try {
                 ResultSet searchResults = sbv.searchBookings();
-                bookingTable.setModel(TableModelBuilder.build(searchResults));
+                refreshBookingTable();
             } catch (Exception ex) {
                 Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -508,35 +512,53 @@ public class MainUI extends javax.swing.JFrame {
             Object[] values = {confirmed == 1 ? 0:1};
             String[] columnNames = {"confirmed"};
             mb.update(values, columnNames, "bookingid = "+bookingid);
+            try {
+                refreshBookingTable();
+            } catch (SQLException ex) {
+                ExceptionMessageDialog.show(this, ex.getMessage());
+            }
         }
     }//GEN-LAST:event_confirmBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
-        if(bookingTable.getSelectedRow() == -1){
+        if(bookingTable.getSelectedRow() != -1){
             String bookingid = bookingTable.getValueAt(bookingTable.getSelectedRow(), 0).toString();
             int result = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete the selected booking");
             if(result == JOptionPane.OK_OPTION){
-                mb.delete("bookingid = "+bookingid);
+                try {
+                    mb.delete("bookingid = "+bookingid);
+                    refreshBookingTable();
+                } catch (SQLException ex) {
+                    ExceptionMessageDialog.show(this, ex.getMessage());
+                }
             }
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void updateBookingBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBookingBtnActionPerformed
         // TODO add your handling code here:
-        UpdateBookingsView ubv = new UpdateBookingsView();
-        if(bookingTable.getSelectedRow() == -1){
-        String bookingid = bookingTable.getValueAt(bookingTable.getSelectedRow(),0).toString();
-        int result = JOptionPane.showConfirmDialog(this,ubv,"Update Bookings",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
-            if(result == JOptionPane.OK_OPTION){
-                
+        
+        if(bookingTable.getSelectedRow() != -1){
+            try {
+                String bookingid = bookingTable.getValueAt(bookingTable.getSelectedRow(),0).toString();
+                UpdateBookingsView ubv = new UpdateBookingsView(Integer.parseInt(bookingid));
+                int result = JOptionPane.showConfirmDialog(this,ubv,"Update Bookings",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
+                if(result == JOptionPane.OK_OPTION){
+                    ubv.updateBookings();
+                    refreshBookingTable();
+                }
+            } catch (SQLException ex) {
+                ExceptionMessageDialog.show(this, ex.getLocalizedMessage());
             }
         }
     }//GEN-LAST:event_updateBookingBtnActionPerformed
 
+    private void refreshBookingTable() throws SQLException{
+        bookingTable.setModel(TableModelBuilder.build(mb.read("ALL")));
+    }
     private TableModel getHallsTableModel() {
         try {
-
             DefaultTableModel dtm = (DefaultTableModel) TableModelBuilder.build(mh.read("ALL"));
             return dtm;
         } catch (SQLException ex) {

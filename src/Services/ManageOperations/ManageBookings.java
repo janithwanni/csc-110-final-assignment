@@ -11,7 +11,7 @@ public class ManageBookings extends Manageable {
     public ManageBookings() {
     //TODO add bookings table and column names
     tableName="bookings";
-    String[] c = {"hallid,bookedby","confirmed","startdate","enddate","dayconfig"};
+    String[] c = {"hallid","bookedby","startdate","enddate","dayconfig","confirmed"};
     columnNames = c;
     }
 }
